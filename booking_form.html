@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Form</title>
+    <link rel="stylesheet" href="./mmt.html">
+    <style>
+        html,
+        body {
+            color: #000000d9;
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .background {
+            background: rgb(232, 232, 232);
+            background-repeat: no-repeat;
+            background-image: linear-gradient(to bottom, #051322, #15457c);
+            background-size: 100% 300px;
+            width: 100%;
+        }
+
+        .header {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #041422;
+            padding: 10px 40px 12px;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+            background-color: #fff;
+            width: 1183px;
+        }
+
+        .header .logo {
+            font-size: 20px;
+            color: #4a90e2;
+            font-weight: bold;
+            background-color: white;
+            margin-left: 50px;
+        }
+
+        .header .menuItems {
+            display: flex;
+            gap: 45px;
+            margin-right: 100px;
+        }
+
+        .menuItems img {
+            height: 25px;
+            width: 30px;
+            margin-bottom: 10px;
+        }
+
+        .menuItems span {
+            color: #4a4a4a;
+            font-size: 14px;
+        }
+
+        .menu {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-container {
+            max-width: 1000px;
+            margin: 20px auto;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            height: max-content;
+        }
+
+        header h2 {
+            font-size: 1.8em;
+            margin: 0 0 10px;
+            text-align: center;
+            color: #2c3e50;
+        }
+
+        header p {
+            text-align: center;
+            font-size: 0.95em;
+            color: #7f8c8d;
+            margin-bottom: 20px;
+        }
+
+        header a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        header a:hover {
+            text-decoration: underline;
+        }
+
+        /* Section Styling */
+        .section {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            border: 1px solid #e3e3e3;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .adult-section {
+            display: flex;
+            align-items: center;
+        }
+
+        .adult-section img {
+            width: 40px;
+            height: 40px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 2px solid #ccc;
+            margin-right: 10px;
+        }
+
+        .adult-details {
+            display: flex;
+            gap: 650px;
+        }
+
+        .adult-title {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #34495e;
+            margin: 0;
+        }
+
+        .adult-status {
+            font-size: 0.9em;
+            color: #7f8c8d;
+        }
+
+        .add-adult {
+            margin-top: 15px;
+        }
+
+        .add-btn {
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-left: 830px;
+        }
+
+        .add-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .info-text {
+            margin-top: 10px;
+            font-size: 0.9em;
+            color: #7f8c8d;
+        }
+
+        /* Flexbox for Email, Mobile No, and Country Code */
+        .flex-container {
+            gap: 30px;
+            /* Spacing between items */
+            align-items: center;
+            /* Align items vertically */
+            margin-bottom: 15px;
+        }
+
+        .personal-info1,
+        .personal-info2 {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 15px;
+
+        }
+
+
+        .flex-item {
+            flex: 1;
+            /* Equal width for items */
+            min-width: 150px;
+            /* Minimum width for fields */
+            margin: 5px;
+        }
+
+        .flex-item label {
+            font-size: 0.95em;
+            margin-bottom: 5px;
+            display: inline-block;
+            color: #555;
+        }
+
+        .flex-item input,
+        .flex-item select {
+            width: 100%;
+            padding: 10px;
+            font-size: 1em;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Checkbox and Radio Buttons */
+        .checkbox-container,
+        .radio-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .checkbox-container label,
+        .radio-group label {
+            margin: 0;
+            font-size: 0.95em;
+        }
+
+        /* Buttons */
+        .add-btn {
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .add-btn:hover {
+            background: linear-gradient(93deg, #53b2fe, #065af3);
+        }
+
+        .continue-btn {
+            padding: 15px;
+            background: linear-gradient(93deg, #53b2fe, #065af3);
+            color: white;
+            font-size: 1.1em;
+            font-weight: bold;
+            border: none;
+            border-radius: 50px;
+            width: 200px;
+            cursor: pointer;
+        }
+
+        .continue-btn:hover {
+            background-color: #218838;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .flex-container {
+                flex-direction: column;
+                /* Stack items vertically on smaller screens */
+            }
+
+            .adult-section {
+                flex-direction: column;
+                /* Stack image and text for smaller screens */
+                text-align: center;
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .adult-section {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+
+<body class="background">
+    <!-- Header -->
+    <div class="header-section">
+        <div class="header">
+            <div class="logo"><img src="https://promos.makemytrip.com/Growth/Images/3x/mmt_dt_header_icon_3x.png"
+                    alt="makemytrip-logo" style="height: 40px;width: 150px;"></div>
+            <nav>
+                <div class="menuItems">
+                    <div class="menu">
+                        <img src="https://github.com/DIVYA1130-coder/icons/blob/main/flights.png?raw=true">
+                        <span>Flights</span>
+                    </div>
+                    <div class="menu">
+                        <img src="https://github.com/DIVYA1130-coder/icons/blob/main/hotels.png?raw=true">
+                        <span>Hotels</span>
+                    </div>
+                    <div class="menu">
+                        <img src="https://github.com/DIVYA1130-coder/icons/blob/main/homestays.png?raw=true">
+                        <span> Homes...</span>
+                    </div>
+                    <div class="menu">
+                        <img src="https://github.com/DIVYA1130-coder/icons/blob/main/holidays.png?raw=true">
+                        <span>Holidays...
+                        </span>
+                    </div>
+                    <div class="menu">
+                        <img src="https://github.com/DIVYA1130-coder/icons/blob/main/trains.png?raw=true">
+                        <span>Trains</span>
+                    </div>
+                    <div class="menu">
+                        <img src="https://github.com/DIVYA1130-coder/icons/blob/main/bus.png?raw=true">
+                        <span>Buses</span>
+                    </div>
+                    <div class="menu">
+                        <img src="https://github.com/DIVYA1130-coder/icons/blob/main/cabs.png?raw=true">
+                        <span>Cabs</span>
+                    </div>
+                    <div class="menu">
+                        <img src="https://github.com/DIVYA1130-coder/icons/blob/main/forex%20card.png?raw=true">
+                        <span>Forex..</span>
+                    </div>
+                    <div class="menu">
+                        <img src="https://github.com/DIVYA1130-coder/icons/blob/main/travel%20insurance.png?raw=true">
+                        <span>Travel..</span>
+                    </div>
+                </div>
+            </nav>
+        </div>
+</body>
+
+<body>
+    <h2 style="color: #ffffff;">Complete your Booking</h2>
+    <div class="form-container">
+        <!-- Header Section -->
+        <header>
+            <h2>Traveller Details</h2>
+            <p style="background-color: #ecf5fa;padding: 10px;">
+                Log in to view your saved traveller list, unlock amazing deals & much more!
+                <a href="#">LOGIN NOW</a>
+            </p>
+        </header>
+
+        <!-- Adult Details Section -->
+        <section class="section">
+            <div class="adult-section">
+                <img src="https://cdn-icons-png.flaticon.com/128/666/666201.png" alt="Adult Icon">
+                <div class="adult-details">
+                    <h3 class="adult-title">ADULT (12 yrs+)</h3>
+                    <p class="adult-status">0/1 added</p>
+                </div>
+            </div>
+            <div class="add-adult">
+                <p class="info-text" style="background-color: #ffedd1;height: 38px;padding: 10px;"><b>Important:</b>
+                    Enter name as mentioned on your passport or Government approved IDs.</p>
+                <button class="add-btn">+ Add New Adult</button>
+            </div>
+        </section>
+        <section class="section">
+            <h3>ADULT 1</h3>
+            <div class="flex-container">
+                <div class="personal-info1">
+                    <div class="flex-item">
+                        <label for="mobile">First Name</label>
+                        <input type="tel" id="mobile" name="mobile" placeholder="Enter First Name" required>
+                    </div>
+                    <div class="flex-item">
+                        <label for="mobile">Last Name</label>
+                        <input type="tel" id="mobile" name="mobile" placeholder="Enter Last Name" required>
+                    </div>
+                    <div class="flex-item">
+                        <label for="email">Gender</label>
+                        <select id="country-code" name="country-code" required>
+                            <option value="" disabled selected>Select your Gender</option>
+                            <option value="F">Female</option>
+                            <option value="M">Male</option>
+                        </select>
+                    </div>
+                </div>
+                <!------------------------------------------------------------->
+                <div class="personal-info2">
+                    <div class="flex-item">
+                        <label for="country-code">Country Code</label>
+                        <select id="country-code" name="country-code" required>
+                            <option value="91">India (+91)</option>
+                            <option value="1">USA (+1)</option>
+                        </select>
+                    </div>
+                    <div class="flex-item">
+                        <label for="mobile">Mobile No</label>
+                        <input type="tel" id="mobile" name="mobile" placeholder="Enter mobile number" required>
+                    </div>
+                    <div class="flex-item">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" placeholder="Enter email" required>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!------------------------------passenger details----------------------------------------------->
+        <section class="section" style="display: flex;flex-direction: column;">
+            <h3>Booking details will be sent to</h3>
+            <div class="flex-container" style="display: flex;">
+                <div class="flex-item">
+                    <label for="country-code">Country Code</label>
+                    <select id="country-code" name="country-code" required>
+                        <option value="91">India (+91)</option>
+                        <option value="1">USA (+1)</option>
+                    </select>
+                </div>
+                <div class="flex-item">
+                    <label for="mobile">Mobile No</label>
+                    <input type="tel" id="mobile" name="mobile" placeholder="Enter mobile number" required>
+                </div>
+                <div class="flex-item">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="Enter email" required>
+                </div>
+            </div>
+
+        </section>
+        <!-- GST Details Section -->
+        <section class="section">
+            <input type="checkbox" id="gst-checkbox" name="gst-checkbox">
+            <label for="gst-checkbox">I have a GST number (Optional)</label>
+        </section>
+
+        <!-- State Selection Section -->
+        <section class="section">
+            <h3>Your State</h3>
+            <div>
+                <div class="flex-item">
+                    <label for="state">Select the State</label>
+                    <select id="state" name="state" required>
+                        <option value="" disabled selected>Select your state</option>
+                        <option value="AP">Andhra Pradesh</option>
+                        <option value="AR">Arunachal Pradesh</option>
+                        <option value="AS">Assam</option>
+                        <option value="BR">Bihar</option>
+                        <option value="CT">Chhattisgarh</option>
+                        <option value="GA">Gujarat</option>
+                        <option value="HR">Haryana</option>
+                        <option value="HP">Himachal Pradesh</option>
+                        <option value="JK">Jammu and Kashmir</option>
+                        <option value="GA">Goa</option>
+                        <option value="JH">Jharkhand</option>
+                        <option value="KA">Karnataka</option>
+                        <option value="KL">Kerala</option>
+                        <option value="MP">Madhya Pradesh</option>
+                        <option value="MH">Maharashtra</option>
+                        <option value="MN">Manipur</option>
+                        <option value="ML">Meghalaya</option>
+                        <option value="MZ">Mizoram</option>
+                        <option value="NL">Nagaland</option>
+                        <option value="OR">Odisha</option>
+                        <option value="PB">Punjab</option>
+                        <option value="RJ">Rajasthan</option>
+                        <option value="SK">Sikkim</option>
+                        <option value="TN">Tamil Nadu</option>
+                        <option value="TG">Telangana</option>
+                        <option value="TR">Tripura</option>
+                        <option value="UT">Uttarakhand</option>
+                        <option value="UP">Uttar Pradesh</option>
+                        <option value="WB">West Bengal</option>
+                        <option value="AN">Andaman and Nicobar Islands</option>
+                        <option value="CH">Chandigarh</option>
+                        <option value="DN">Dadra and Nagar Haveli</option>
+                        <option value="DD">Daman and Diu</option>
+                        <option value="DL">Delhi</option>
+                        <option value="LD">Lakshadweep</option>
+                        <option value="PY">Puducherry</option>
+                    </select>
+                </div>
+                <div class="checkbox-container">
+                    <input type="checkbox" id="confirm-billing" name="confirm-billing">
+                    <label for="confirm-billing">Confirm and save billing details to your profile</label>
+                </div>
+            </div>
+        </section>
+
+        <!-- Special Fare Section -->
+        <section class="section special-fare">
+            <h3>Get More Benefits with Special Fare</h3>
+            <p>Check the availability of special fares if the travellers selected belong to one of these categories.</p>
+            <div class="radio-group">
+                <div>
+                    <input type="radio" id="armed-forces" name="special-fare" value="armed-forces">
+                    <label for="armed-forces">Armed forces (Up to ₹500 off)</label>
+                </div>
+                <div>
+                    <input type="radio" id="senior-citizen" name="special-fare" value="senior-citizen">
+                    <label for="senior-citizen">Senior Citizen (Up to ₹500 off)</label>
+                </div>
+                <div>
+                    <input type="radio" id="student" name="special-fare" value="student">
+                    <label for="student">Student (Extra Discount/Baggage)</label>
+                </div>
+            </div>
+        </section>
+        <section class="booking-form">
+            <h2>Booking Summary</h2>
+            <div class="price-summary">
+                <p><strong>Original Price:</strong> ₹<span id="flight-price">0</span></p>
+                <p><strong>Additional Charges (including GST):</strong> ₹<span id="additional-charges">550</span></p>
+                <p><strong>Total Price:</strong> ₹<span id="total-price">0</span></p>
+            </div>
+        </section>
+
+
+
+        <!-- Submit Button -->
+        <a href="succesful.html"><button class="continue-btn">CONTINUE</button></a>
+    </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Retrieve the selected price from sessionStorage
+            const selectedPrice = sessionStorage.getItem('selectedPrice');
+
+            if (selectedPrice) {
+                // Populate the price
+                document.getElementById('flight-price').textContent = selectedPrice;
+            } else {
+                alert('No price selected. Redirecting to the flight selection page.');
+                window.location.href = 'results.html';
+            }
+        });
+        sessionStorage.getItem('selectedPrice');
+        //------------------------------PRICE SUMMARY FUNCTIONALITY----------------------------------------------
+
+        // Constants for charges
+        const FIXED_ADDITIONAL_CHARGES = 550; // Fixed charges including GST
+
+        // Retrieve the original price from sessionStorage
+        let originalPrice = parseFloat(sessionStorage.getItem('selectedPrice'));
+
+        // Debug: Check if the original price exists
+        if (isNaN(originalPrice)) {
+            console.warn('Original price not found or invalid. Defaulting to 0.');
+            originalPrice = 0; // Fallback to 0 if not found or invalid
+        }
+
+        // Calculate total price
+        const totalPrice = originalPrice + FIXED_ADDITIONAL_CHARGES;
+
+        // Debug: Log values for verification
+        console.log('Original Price:', originalPrice);
+        console.log('Additional Charges:', FIXED_ADDITIONAL_CHARGES);
+        console.log('Total Price:', totalPrice);
+
+        // Update the HTML content with dynamic values
+        document.getElementById('flight-price').innerText = originalPrice.toFixed(2);
+        document.getElementById('additional-charges').innerText = FIXED_ADDITIONAL_CHARGES.toFixed(2);
+        document.getElementById('total-price').innerText = totalPrice.toFixed(2);
+        //-----------------------------------------------------------------------------
+        
+
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MakeMyTrip Clone</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+</head>
+<style>
+    body,
+    html {
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        overflow: hidden;
+        font-family: sans-serif;
+        background-image: url('https://imgak.mmtcdn.com/pwa_v3/pwa_commons_assets/desktop/bg4.jpg');
+        object-fit: cover;
+        background-color: #f2f2f2;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+    }
+
+    :root {
+        --primary-color: #0392ff;
+        --secondary-color: #f2f2f2;
+        --font-family: sans-serif;
+    }
+
+    @media (max-width: 768px) {
+        .menu {
+            flex-direction: column;
+            width: 100%;
+        }
+
+        .main-container {
+            padding: 10px;
+        }
+    }
+
+
+    body,
+    html {
+        font-family: var(--font-family);
+    }
+
+
+    .header-links {
+        display: flex;
+        align-items: center;
+    }
+
+    .link-item {
+        display: flex;
+        align-items: center;
+        margin-right: 15px;
+    }
+
+    .link-icon {
+        width: 16px;
+        height: 16px;
+        margin-right: 5px;
+    }
+
+    .link-text {
+        display: flex;
+        flex-direction: column;
+        font-family: sans-serif;
+    }
+
+
+    .header-links a {
+        color: #555;
+        text-decoration: none;
+        font-size: 14px;
+        font-family: sans-serif;
+    }
+
+    .country-options {
+        display: flex;
+        font-size: 12px;
+        color: white;
+        background-color: rgba(242, 242, 242, 0.2);
+        align-items: center;
+        width: 100px;
+        height: 40px;
+        border-radius: 8px;
+        padding: 4px 6px;
+        margin-right: 10px;
+    }
+
+    .main-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        margin-top: 0px;
+    }
+
+    .menu-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .menu-item img {
+        width: 35px;
+        height: 45px;
+        margin-bottom: 7px;
+
+    }
+
+    .menu-item span {
+        font-size: 14px Lato;
+        color: black;
+        height: 60px;
+    }
+
+    .menu {
+        display: flex;
+        gap: 50px;
+        background-color: white;
+        border-radius: 10px;
+        padding-left: 30px;
+        padding-right: 30px;
+        height: 100px;
+        width: 928px;
+        position: relative;
+        z-index: 10;
+        margin-top: -1px;
+        transform: translateY(40px);
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    .menu-item.active::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        height: 3px;
+
+    }
+
+    .menu-item.active {
+        border-bottom: 3px solid rgb(3, 146, 255);
+        border-radius: 1px;
+    }
+
+    .menu-item,
+    .header-links a {
+        cursor: pointer;
+    }
+
+    .menu-item:hover {
+        transform: scale(1.05);
+        transition: transform 0.2s ease-in-out;
+    }
+
+    .menu-item.active span {
+        color: #0392ff;
+        /* or any color you prefer */
+    }
+
+    .booking-field {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        width: 100%;
+        max-width: 1200px;
+        padding: 8px;
+        background-color: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+        margin: 0px 0px 40px;
+        padding: 20px 20px 0px;
+        height: 100%;
+        max-height: 350px;
+    }
+
+    .trip-type {
+        display: flex;
+        gap: 5px;
+        padding: 10px 0;
+        margin-top: 15px;
+    }
+
+    .trip-option {
+        padding: 8px 15px;
+        cursor: pointer;
+        border-radius: 20px;
+        font-weight: bold;
+        color: #4a4a4a;
+        transition: background-color 0.3s, color 0.3s;
+        font-size: 14px;
+    }
+
+    .trip-option.active {
+        background-color: #e0f3ff;
+    }
+
+    .booking-form {
+        display: flex;
+        align-items: center;
+        background-color: #ffffff;
+        border-radius: 10px;
+    }
+
+    .location-item,
+    .date-item {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        border: 1px solid #ddd;
+        min-width: 200px;
+        /* Ensures consistent width for each item */
+    }
+
+    .location-item {
+        max-width: 220px;
+    }
+
+    .date-item {
+        max-width: 220px;
+    }
+
+    .date-picker {
+        display: flex;
+        gap: 20px;
+    }
+
+    .label {
+        font-size: 14px;
+        color: #555;
+        margin-bottom: 5px;
+    }
+
+    .date-container {
+        display: flex;
+        font-family: Arial, sans-serif;
+    }
+
+    .departure-date {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px;
+        border: 1px solid #ccc;
+        background-color: #fff;
+        cursor: pointer;
+        width: 160px;
+        font-family: Arial, sans-serif;
+    }
+
+    .return-date {
+        padding: 10px 19px;
+        height: 102px;
+        width: 159px;
+        border: 1px solid #ccc;
+        background-color: #fff;
+        cursor: pointer;
+    }
+
+    .date-info {
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+    }
+
+    .date-info .date {
+        font-size: 20px;
+        font-weight: bold;
+        color: #333;
+    }
+
+    .date-info .month-year {
+        font-size: 14px;
+        color: #777;
+    }
+
+    .date-info .day {
+        font-size: 12px;
+        color: #555;
+    }
+
+    .date-input {
+        display: none;
+    }
+
+    .label {
+        font-size: 14px;
+        color: #666;
+        font-weight: 500;
+    }
+
+    .location,
+    .date {
+        font-size: 20px;
+        font-weight: bold;
+        color: #000;
+    }
+
+    .subtext,
+    .day {
+        font-size: 14px;
+        color: #888;
+    }
+
+    .placeholder {
+        font-size: 16px;
+        color: #bbb;
+    }
+
+    .special-fares {
+        display: flex;
+        gap: 5px;
+        font-size: 14px;
+        margin-top: 20px;
+        margin-bottom: 10px;
+    }
+    .titleTag {
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* Title styling */
+    .title {
+        font-size: 16px;
+        font-weight: bold;
+        margin-top: 10px;
+    }
+
+    /* EXTRA SAVINGS label styling */
+    .extra-savings {
+        background-image: linear-gradient(to right, rgb(67, 225, 168), rgb(33, 147, 147));
+        padding: 5px;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: bold;
+        color: #ffffff;
+        width: 120px;
+        text-align: center;
+        margin-top: 3px;
+    }
+
+    /* Container for fare options */
+    .fare-options {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 10px;
+    }
+
+    /* Individual fare option styling */
+    .fare-option {
+        border: 1px solid grey;
+        border-radius: 10px;
+        height: 50px;
+        padding: 8px;
+        width: 150px;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        transition: border-color 0.3s, box-shadow 0.3s;
+        gap: 5px;
+        /* Reduced gap */
+        border: 1px solid #ccc;
+    }
+
+    /* Custom radio button color */
+    .fare-option input[type="radio"] {
+        accent-color: #008cff;
+        /* Modern browsers */
+        margin: 0;
+        /* Removes additional spacing */
+    }
+    /* Active styling for selected fare option */
+    .fare-option.active {
+            background-color: #E6F2FF; /* Light blue background */
+            border: 1px solid #0066CC; /* Blue border */
+            color: #0066CC; /* Blue text color */
+        } 
+
+    /* Title styling within fare option */
+    .option-title {
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    /* Subtitle styling within fare option */
+    .option-subtitle {
+        font-size: 12px;
+        font-weight: lighter;
+        color: #757575;
+    }
+
+    #searchButtonContainer {
+        position: relative;
+    }
+
+    #searchButton:hover {
+        background-color: #0056b3;
+    }
+
+    #searchButton {
+        position: absolute;
+        bottom: 5px;
+        top: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: linear-gradient(93deg, #53b2fe, #065af3);
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 30px;
+        font-size: 25px;
+        cursor: pointer;
+        width: 200px;
+        height: 50px;
+        z-index: 5;
+    }
+
+    /* Modal styling */
+    .modal {
+        display: none;
+        /* Hidden by default */
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    .modal-content {
+        background-color: #fff;
+        margin: 10% auto;
+        padding: 20px;
+        border-radius: 8px;
+        width: 400px;
+        text-align: center;
+        position: relative;
+    }
+
+    .close {
+        position: absolute;
+        top: 10px;
+        right: 20px;
+        font-size: 24px;
+        cursor: pointer;
+    }
+
+    /* Tabs */
+    .tabs {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+
+    .tab {
+        flex: 1;
+        padding: 10px;
+        cursor: pointer;
+        border: none;
+        background-color: #f1f1f1;
+        border-radius: 20px;
+        font-weight: bold;
+    }
+
+    .tab.active {
+        background: linear-gradient(93deg, #53b2fe, #065af3);
+        color: white;
+    }
+
+    .phone-input {
+        display: flex;
+        margin: 15px 0;
+    }
+
+    .phone-input select {
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-right: none;
+        border-radius: 5px 0 0 5px;
+    }
+
+    .phone-input input {
+        flex: 1;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 0 5px 5px 0;
+    }
+
+    .continue-btn {
+        padding: 10px;
+        width: 100%;
+        border: none;
+        background-color: #dcdcdc;
+        color: white;
+        font-size: 16px;
+        border-radius: 5px;
+        cursor: not-allowed;
+        margin: 10px 0;
+    }
+
+    /* Social login options */
+    .social-login {
+        display: flex;
+        justify-content: center;
+        margin: 20px 0;
+    }
+
+    .social-btn {
+        display: inline-block;
+        width: 50px;
+        /* Set your desired width */
+        height: 50px;
+        /* Set your desired height */
+        background-image: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxASEhUSEhIVFRUVFRcVFRYYEg8VFRAWFRUWFhcVFRcYHSggGBolGxcVITEhJSkrLi4uFx8zODMsNygtLi0BCgoKDg0OGxAQGy0mICUtKy0rLS81LS0tLS8tLy0tLS0tLy0tLS0yLS0tLS0tLy0tLS0vLS0tLS0vLTU1LS0tLf/AABEIAN4A4wMBEQACEQEDEQH/xAAbAAEAAgMBAQAAAAAAAAAAAAAAAQIDBAUGB//EAEMQAAEDAQQGBwQHBgYDAAAAAAEAAhEDEiExQQQFIjJhgUJRcZGh0fAGE2LBFBZSk7Gy0gdTVHKS8RcjM3OiwoKj4f/EABsBAQACAwEBAAAAAAAAAAAAAAAEBQIDBgEH/8QANBEBAAIBAgMDCgYDAQEAAAAAAAECAwQRITFRBRJBExQVMlJxgZGx0TNhoeHw8SJCwQYj/9oADAMBAAIRAxEAPwD7U51q4IAdAs5+aAzYxzQRZvtZYoDhavCCXOtbIQA6yLJx80EMFjFAs32ssUB+3hkgkukWc/JAa6zcUEMFm8oBbJtZeSCX7eGSAXSLOaA11m4oIa2zeUAtk2hh5IJebeGSBaus54IDDYxzQRZsa7....');
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+
+
+    .social-btn {
+        font-size: 24px;
+        margin: 0 10px;
+        cursor: pointer;
+        background: none;
+        border: none;
+    }
+
+    /* Terms */
+    .terms {
+        font-size: 12px;
+        color: #666;
+    }
+
+    .terms a {
+        color: #007bff;
+        text-decoration: none;
+    }
+
+    /* Centering the modal */
+    .modal {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1000;
+        /* Adjust to be higher than background content */
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Background overlay */
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100px;
+        height: 100px;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+        /* Below modal, but above page content */
+    }
+
+    /* Button styling */
+    button {
+        background-color: #007bff;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    button:disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
+    }
+</style>
+
+<body>
+    <div class="link-item" style="margin-bottom: 1px;">
+        <img src="https://promos.makemytrip.com/Growth/Images/1x/mmt_dt_top_icon.png" class="logo1"
+            style="max-width: 155px;max-height: 49px;padding: 10px 40px;">
+        <div class="header-links">
+            <div class="link-item"
+                style="margin-left: 100px;border-right: 2px dashed rgba(242, 242,242, 0.2);padding-left: 10px;padding-right: 10px;">
+                <img src="https://github.com/DIVYA1130-coder/icons/blob/main/list%20your%20property.png?raw=true"
+                    alt="List Your Property Icon" class="link-icon" style="height: 33px;width: 33px;">
+                <div class="link-text">
+                    <a href="#" style="color: #f2f2f2;font-size: 12px;">List Your Property</a>
+                    <span style="color: #f2f2f2;font-size: 10px;">Grow your business!</span>
+                </div>
+            </div>
+            <div class="link-item">
+                <img src="https://github.com/DIVYA1130-coder/icons/blob/main/mybiz.png?raw=true" alt="myBiz Icon"
+                    class="link-icon" style="height: 25px;width: 33px;">
+                <div class="link-text">
+                    <a href="#" style="color: #f2f2f2;font-weight: bolder;font-size: 12px;">Introducing myBiz</a>
+                    <span style="color: #f2f2f2;font-size: 10px;">Business Travel Solution</span>
+                </div>
+            </div>
+            <div class="link-item" style="border-left: 2px dashed rgba(242, 242,242, 0.2);padding-left: 10px;">
+                <img src="https://github.com/DIVYA1130-coder/icons/blob/main/my%20travel.png?raw=true"
+                    alt="My Trips Icon" class="link-icon" style="height: 35px;width: 30px;">
+                <div class="link-text"> <a href="#" style="color: #f2f2f2;font-weight: bold;font-size: 12px;">My
+                        Trips</a>
+                    <span style="color: #f2f2f2;font-size: 10px;">Manage your bookings</span>
+                </div>
+            </div>
+            <div class="link-item"
+                style="height: 50px;width: 200px;border-radius: 8px;background: linear-gradient(93deg,#53b2fe,#065af3);">
+                <img src="https://github.com/DIVYA1130-coder/icons/blob/main/my.png?raw=true"
+                    style="height: 24px;width: 24px;margin-left: 10px;" class="link-icon">
+                <div class="link-text"><a href="#" style="color: #f2f2f2;font-weight: bold;font-size: 10px;"
+                        id="loginBtn">Login or
+                        Create Account</a>
+                </div>
+            </div>
+            <div class="country-options">
+                <img src="data:image/png;base64,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"
+                    class="link-icon" style="margin-left: 10px;">
+                <span>IN</span>|
+                <span>ENG</span>
+            </div>
+            <div class="country-options" style="width: 72px;">
+                <span style="margin-left: 20px;">INR</span>
+            </div>
+        </div>
+    </div>
+    <div class="main-container" style="margin-top: -20px;">
+        <div class="menu">
+            <div class="menu-item active" data-name="Flights" onclick="setActiveMenuItem('Flights')">
+                <br><img src="https://github.com/DIVYA1130-coder/icons/blob/main/flights.png?raw=true"
+                    alt="Flights Icon" style="height: 32px;width:42px">
+                <span>Flights</span>
+            </div>
+            <div class="menu-item" data-name="Hotels" onclick="setActiveMenuItem('Hotels')">
+                <br><img src="https://github.com/DIVYA1130-coder/icons/blob/main/hotels.png?raw=true" alt="Hotels Icon"
+                    style="height: 40px;width:36px">
+                <span>Hotels</span>
+            </div>
+            <div class="menu-item" data-name="Homestays &Villas" onclick="setActiveMenuItem('Homestays &Villas')">
+                <br><img src="https://github.com/DIVYA1130-coder/icons/blob/main/homestays.png?raw=true"
+                    alt="Homestays & Villas" style="height: 37px;width:44px">
+                <span> Homestays<br> &Villas</span>
+            </div>
+            <div class="menu-item" data-name="Holiday Packages" onclick="setActiveMenuItem('Holiday Packages')">
+                <br><img src="https://github.com/DIVYA1130-coder/icons/blob/main/holidays.png?raw=true"
+                    alt="Holiday Packages" style="height: 33px;width:42px">
+                <span>Holiday <br>Packages</span>
+            </div>
+            <div class="menu-item" data-name="Trains" onclick="setActiveMenuItem('Trains')">
+                <br><img src="https://github.com/DIVYA1130-coder/icons/blob/main/trains.png?raw=true" alt="Trains"
+                    style="height: 37px;width:47px">
+                <span>Trains</span>
+            </div>
+            <div class="menu-item" data-name="Buses" onclick="setActiveMenuItem('Buses')">
+                <br><img src="https://github.com/DIVYA1130-coder/icons/blob/main/bus.png?raw=true" alt="Buses"
+                    style="height: 36px;width:43px">
+                <span>Buses</span>
+            </div>
+            <div class="menu-item" data-name="Cabs" onclick="setActiveMenuItem('Cabs')">
+                <br><img src="https://github.com/DIVYA1130-coder/icons/blob/main/cabs.png?raw=true" alt="Cabs"
+                    style="height: 37px;width:39px">
+                <span>Cabs</span>
+            </div>
+            <div class="menu-item" data-name="Forex Card & Currency"
+                onclick="setActiveMenuItem('Forex Card & Currency')">
+                <br><img src="https://github.com/DIVYA1130-coder/icons/blob/main/forex%20card.png?raw=true"
+                    alt="Forex Card & Currency" style="height: 34px;width:30px">
+                <span>Forex Card <br>& Currency</span>
+            </div>
+            <div class="menu-item" data-name="Travel Insurance" onclick="setActiveMenuItem('Travel Insurance')">
+                <br><img src="https://github.com/DIVYA1130-coder/icons/blob/main/travel%20insurance.png?raw=true"
+                    alt="Travel Insurance" style="height: 29px;width:25px">
+                <span>Travel <br>Insurance</span>
+            </div>
+        </div>
+        <div class="booking-field" style="height:320px;width: 1200px;background-color: #ffffff;border-radius: 10px;">
+            <div class="trip-type">
+                <label class="trip-option active">
+                    <input type="radio" name="trip" value="one-way" checked> One Way
+                </label>
+                <label class="trip-option">
+                    <input type="radio" name="trip" value="round-trip"> Round Trip
+                </label>
+                <label class="trip-option">
+                    <input type="radio" name="trip" value="multi-city"> Multi City
+                </label>
+            </div>
+            <div class="booking-form">
+                <div class="location-item" style="height: 100px; width: 370px; padding: 10px 19px;"
+                    onclick="document.getElementById('locationInput').focus()">
+                    <span class="label" style="margin: 0px 0px 10px; font-size: 14px;">From</span>
+                    <input id="locationInput" class="location" style="font-size: 30px; border: none;" type="text"
+                        value="Delhi" onfocus="if(this.value==='Delhi') this.value='';"
+                        onblur="if(this.value==='') this.value='Delhi';">
+                    <span class="subtext" style="font-size: 14px;">DEL, Delhi Airport India</span>
+                </div>
+                <div class="location-item" style="height: 100px; width: 370px; padding: 10px 19px;"
+                    onclick="document.getElementById('toLocationInput').focus()">
+                    <span class="label" style="margin: 0px 0px 10px; font-size: 14px;">To</span>
+                    <input id="toLocationInput" class="location" style="font-size: 30px; border: none;" type="text"
+                        value="Bengaluru" onfocus="if(this.value==='Bengaluru') this.value='';"
+                        onblur="if(this.value==='') this.value='Bengaluru';">
+                    <span class="subtext" style="font-size: 14px;">BLR, Bengaluru International Airport</span>
+                </div>
+
+                <div class="date-container">
+                    <div class="departure-date" onclick="document.getElementById('departure-date')._flatpickr.open()"
+                        style="padding: 10px 19px; height: 100px; width: 159px;">
+                        <div class="date-info">
+                            <label for="departure-date" class="label"
+                                style="position: relative; top: -8px; display: flex; align-items: center; font-size: 14px;">
+                                Departure <img src="https://cdn-icons-png.flaticon.com/128/143/143271.png"
+                                    alt="Dropdown Arrow" style="width: 12px; margin-left: 5px;">
+                            </label>
+                            <span class="date-month-year">
+                                <span class="date" style="font-size: 30px; color: #000000; font-weight: bold;">12</span>
+                                <span class="month-year" style="font-size: 20px; color: #000000;">Nov'24</span>
+                            </span>
+                            <span class="day" style="font-size: 14px; color: #4a4a4a; margin-left: 5px;">Tuesday</span>
+                        </div>
+                    </div>
+                    <div class="return-date" onclick="document.getElementById('return-date')._flatpickr.open()"
+                        style="padding: 10px 19px; height: 99px; width: 157px;">
+                        <div class="date-info">
+                            <label for="return-date" class="label"
+                                style="display: flex; align-items: center; font-size: 14px;">
+                                Return <img src="https://cdn-icons-png.flaticon.com/128/143/143271.png"
+                                    alt="Dropdown Arrow" style="width: 12px; margin-left: 5px;">
+                            </label>
+                            <span class="date-month-year">
+                                <span class="date" style="font-size: 30px; color: #000000; font-weight: bold;"> </span>
+                                <span class="month-year" style="font-size: 20px; color: #000000;"> </span>
+                            </span>
+                            <p class="day" style="font-size: 12px; color: #9b9b8b; margin-left: 5px;font-weight: 900;">
+                                Tap to add a
+                                return date for bigger discounts</p>
+                        </div>
+                    </div>
+                    <input type="text" id="departure-date" class="date-input">
+                    <input type="text" id="return-date" class="date-input">
+                </div>
+                <div style="height: 120px;">
+                    <div class="travellers-class-container"
+                        style="height: 99px;width: 214px;padding: 10px 0px 10px 19px; border: 1px solid #ccc;background-color: #fff; cursor: pointer;">
+                        <label style="display: flex; align-items: center; font-size: 14px;">
+                            Travellers & Class <img src="https://cdn-icons-png.flaticon.com/128/143/143271.png"
+                                alt="Dropdown Arrow" style="width: 12px; margin-left: 5px;">
+                        </label>
+                        <select id="travellers" style="height: 50px;width: 160px;border: none;">
+                            <label style="display: flex; align-items: center; font-size: 14px;">
+                                Travellers & Class <img src="https://cdn-icons-png.flaticon.com/128/143/143271.png"
+                                    alt="Dropdown Arrow" style="width: 12px; margin-left: 5px;">
+                            </label>
+                            <option>1 Traveller, Economy</option>
+                            <option>2 Travellers, Business</option>
+                            <option>3 Travellers, Premium Economy</option>
+                        </select></label>
+                    </div>
+                </div>
+            </div>
+            <div class="special-fares" style="margin-top: 5px;">
+                <!-- Title and extra savings label -->
+                <div class="titleTag">
+                    <b class="title">Select a special fare:</b>
+                    <label class="extra-savings">EXTRA SAVINGS</label>
+                </div>
+
+                <!-- Fare options with radio buttons -->
+                <div class="fare-options">
+                    <label class="fare-option" onclick="selectOption(this)">
+                        <input type="radio" name="fare" value="regular" checked>
+                        <span>
+                            <b class="option-title">Regular</b><br>
+                            <b class="option-subtitle">Regular Fares</b>
+                        </span>
+                    </label>
+
+                    <label class="fare-option" onclick="selectOption(this)" style="width: 160px;">
+                        <input type="radio" name="fare" value="student">
+                        <span>
+                            <b class="option-title">Student</b><br>
+                            <b class="option-subtitle">Extra discounts/baggage</b>
+                        </span>
+                    </label>
+
+                    <label class="fare-option" onclick="selectOption(this)">
+                        <input type="radio" name="fare" value="senior-citizen">
+                        <span>
+                            <b class="option-title">Senior Citizen</b><br>
+                            <b class="option-subtitle">Upto ₹600 off</b>
+                        </span>
+                    </label>
+
+                    <label class="fare-option" onclick="selectOption(this)" >
+                        <input type="radio" name="fare" value="doctor-nurses">
+                        <span>
+                            <b class="option-title">Doctor and Nurses</b><br>
+                            <b class="option-subtitle">Upto ₹600 off</b>
+                        </span>
+                    </label>
+
+                    <label class="fare-option" onclick="selectOption(this)">
+                        <input type="radio" name="fare" value="armed-forces">
+                        <span>
+                            <b class="option-title">Armed Forces</b><br>
+                            <b class="option-subtitle">Upto ₹600 off</b>
+                        </span>
+                    </label>
+                </div>
+            </div>
+
+            <div id="searchButtonContainer">
+                <button id="searchButton" type="submit">SEARCH</button>
+            </div>
+        </div>
+    </div>
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+
+            <!-- Account Tabs -->
+            <div class="tabs">
+                <button class="tab active" onclick="switchTab('personal')">PERSONAL ACCOUNT</button>
+                <button class="tab" onclick="switchTab('mybiz')">MyBiz ACCOUNT</button>
+            </div>
+
+            <!-- Form Content -->
+            <div id="formContent">
+                <label for="phone">Mobile Number</label>
+                <div class="phone-input">
+                    <select id="countryCode">
+                        <option value="+91">🇮🇳 +91</option>
+                        <!-- Add other country codes as needed -->
+                    </select>
+                    <input type="text" id="phone" placeholder="Enter Mobile Number" required>
+                </div>
+
+                <button class="continue-btn" disabled>Continue</button>
+
+                <!-- Alternative Login Options -->
+                <p>Or Login/Signup With</p>
+                <div class="social-login">
+                    <button class="social-btn google">
+                        <img src="https://banner2.cleanpng.com/20180413/rfe/avfci721i.webp"
+                            style="height: 40px;width: 40px;border-radius: 150px;border: none;">
+                    </button>
+                    <button class="social-btn email">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSpeu1XtQjnph3N9jxH280RroD1hXkbWnZSQ&s"
+                            style="height: 40px;width: 40px;border-radius: 150px;border: none;">
+                    </button>
+
+                </div>
+
+                <p class="terms">
+                    By proceeding, you agree to our <a href="#">Privacy Policy</a>, <a href="#">User Agreement</a> and
+                    <a href="#">T&Cs</a>.
+                </p>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+    //-----------------------ACTIVE MENU ITEMS AND TRIP TYPE-----------------------
+    function setActiveMenuItem(itemName) {
+        const menuItems = document.querySelectorAll('.menu-item');
+        menuItems.forEach(item => {
+            item.classList.toggle('active', item.dataset.name === itemName);
+        });
+    }
+    const tripOptions = document.querySelectorAll('.trip-type input[name="trip"]');
+    function updateActiveTripOption() {
+        document.querySelectorAll('.trip-option').forEach(label => {
+            label.classList.remove('active');
+        });
+        const activeLabel = document.querySelector('.trip-type input[name="trip"]:checked').parentElement;
+        activeLabel.classList.add('active');
+    }
+    tripOptions.forEach(radio => {
+        radio.addEventListener('change', updateActiveTripOption);
+    });
+    updateActiveTripOption();
+    //-------------------------------------------------------------------------
+    //-------------------------DATA PICKER-------------------------------------
+    flatpickr("#departure-date", {
+        dateFormat: "Y-m-d",
+        defaultDate: new Date(),
+        onChange: function (selectedDates) {
+            updateDateDisplay(selectedDates[0], "departure");
+        }
+    });
+    flatpickr("#return-date", {
+        dateFormat: "Y-m-d",
+        onChange: function (selectedDates) {
+            updateDateDisplay(selectedDates[0], "return");
+        }
+    });
+    function updateDateDisplay(selectedDate, type) {
+        const day = selectedDate.toLocaleString("en-US", { weekday: 'long' });
+        const date = selectedDate.getDate();
+        const month = selectedDate.toLocaleString("en-US", { month: 'short' });
+        const year = selectedDate.getFullYear().toString().slice(-2);
+        document.querySelector(`.${type}-date .date`).textContent = date;
+        document.querySelector(`.${type}-date .month-year`).textContent = `${month}'${year}`;
+        document.querySelector(`.${type}-date .day`).textContent = day;
+    }
+    document.addEventListener("DOMContentLoaded", function () {
+        const today = new Date();
+        updateDateDisplay(today, "departure");
+    });
+    //-------------------------------------------------------------------------------------
+    //--------------- Open and close the modal for login/create account---------------------
+    const modal = document.getElementById('modal');
+    const loginBtn = document.getElementById('loginBtn');
+    const closeBtn = document.querySelector('.close');
+    const phoneInput = document.getElementById('phone');
+    const continueBtn = document.querySelector('.continue-btn');
+
+    loginBtn.onclick = () => {
+        modal.style.display = 'block';
+    };
+
+    closeBtn.onclick = () => {
+        modal.style.display = 'none';
+    };
+
+    window.onclick = (event) => {
+        if (event.target == modal) {
+            modal.style.display = 'none';
+        }
+    };
+
+    // Enable "Continue" button if phone number is valid
+    phoneInput.addEventListener('input', () => {
+        if (phoneInput.value.length >= 10) { // Assuming 10 digits is the minimum valid length
+            continueBtn.disabled = false;
+            continueBtn.style.backgroundColor = '#007bff'; // Set active color
+            continueBtn.style.cursor = 'pointer';
+        } else {
+            continueBtn.disabled = true;
+            continueBtn.style.backgroundColor = '#dcdcdc'; // Set inactive color
+            continueBtn.style.cursor = 'not-allowed';
+        }
+    });
+
+    // Close modal when "Continue" button is clicked
+    continueBtn.addEventListener('click', () => {
+        if (!continueBtn.disabled) { // Only if the button is active
+            modal.style.display = 'none';
+        }
+    });
+
+    // Switch tabs
+    function switchTab(tabName) {
+        const tabs = document.querySelectorAll('.tab');
+        tabs.forEach(tab => tab.classList.remove('active'));
+
+        if (tabName === 'personal') {
+            tabs[0].classList.add('active');
+        } else {
+            tabs[1].classList.add('active');
+        }
+    }
+    //------------------------------------------------------------------
+    //---------------------fare-options active---------------------------
+    function selectOption(label) {
+        // Remove active class from all fare-option labels
+        document.querySelectorAll('.fare-option').forEach(option => {
+            option.classList.remove('active');
+            option.querySelector('input[type="radio"]').checked = false;
+        });
+        
+        // Add active class to the selected label and check its radio input
+        label.classList.add('active');
+        label.querySelector('input[type="radio"]').checked = true;
+    }
+
+    // Set the first option as active by default
+    document.addEventListener("DOMContentLoaded", function() {
+        const defaultOption = document.querySelector('.fare-option');
+        if (defaultOption) {
+            selectOption(defaultOption);
+        }
+    });
+    //-----------------------------------------------------------------------
+    //-------------------------SEARCH BUTTON----------------------------------//
+    document.getElementById("searchButton").onclick = function () {
+        window.location.href = "results.html"; // Replace with your target page URL
+    };
+
+    //------------------------------------------------------------------------
+</script>
+
+</body>
+
+</html>

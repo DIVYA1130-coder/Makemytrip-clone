@@ -1,0 +1,1242 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flights Search Result</title>
+    <style>
+        html,
+        body {
+            background-color: #041422;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            align-items: flex-start;
+            overflow-x: hidden;
+            overflow-y: scroll;
+        }
+
+        .background {
+            background: rgb(232, 232, 232);
+            background-repeat: no-repeat;
+            background-image: linear-gradient(to bottom, #051322, #15457c);
+            background-size: 100% 300px;
+        }
+
+        .header {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #041422;
+            padding: 10px 20px;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .header .logo {
+            font-size: 20px;
+            color: #4a90e2;
+            font-weight: bold;
+        }
+
+        .header nav a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 14px;
+            margin-left: 20px;
+        }
+        a{
+            text-decoration: none;
+        }
+
+        .search-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 10px 10px;
+            max-width: 100%;
+            margin: 0;
+            width: 100%;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 10px;
+            border-radius: 8px;
+            width: 100%;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            color: #4a90e2;
+        }
+
+        .input-group label {
+            font-size: 12px;
+            font-weight: bold;
+            color: #4a90e2;
+            margin-bottom: 4px;
+        }
+
+        .input-group input,
+        .input-group select {
+            background-color: #1c2b3a;
+            color: #fff;
+            border: 1px solid #4a90e2;
+            padding: 8px;
+            border-radius: 6px;
+            width: 110px;
+        }
+
+        .input-group.double-arrow span {
+            font-size: 16px;
+            color: #4a90e2;
+            margin-top: 18px;
+            padding: 0 5px;
+        }
+
+        .input-group input[placeholder] {
+            color: #6c7a89;
+        }
+
+        .input-group input:disabled {
+            color: #6c7a89;
+            background-color: #1c2b3a;
+        }
+
+        .search-button {
+            background-color: #b0b0b0;
+            color: #fff;
+            font-weight: bold;
+            padding: 10px 18px;
+            border: none;
+            border-radius: 16px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .search-button:hover {
+            background-color: #9e9e9e;
+        }
+
+        .fare-type {
+            display: flex;
+            align-items: center;
+            padding: 8px 10px;
+            border-radius: 8px;
+            width: 100%;
+            margin-top: 5px;
+        }
+
+        .fare-type label {
+            font-size: 12px;
+            font-weight: bold;
+            color: #4a90e2;
+            margin-right: 10px;
+        }
+
+        .fare-options {
+            display: flex;
+            gap: 3px;
+        }
+
+        .fare-options input[type="radio"] {
+            accent-color: #4a90e2;
+            margin-right: 3px;
+        }
+
+        .fare-options label {
+            font-size: 12px;
+            font-weight: normal;
+            color: #ffffff;
+            font-weight: bold;
+            cursor: pointer;
+            background-color: #213952;
+            height: 32px;
+            margin: 0px 1px 0px 0px;
+            padding: 8px 12px;
+            align-items: center;
+        }
+
+        .parent-container {
+            display: flex;
+            width: 100%;
+            padding: 5px;
+            color: black;
+            margin: 5px;
+            gap: 10px;
+        }
+
+        .filter-box {
+            width: 280px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            height: 850px;
+        }
+
+        .flight-cards {
+            width: 900px;
+            background-color: #ffffff;
+        }
+
+        .section-heading {
+            font-weight: bolder;
+            margin-bottom: 10px;
+            font-size: 16px;
+            color: #000000D9;
+        }
+
+        .applied-filters,
+        .selection {
+            margin-bottom: 20px;
+        }
+
+        .applied-filters button {
+            background-color: #d1e7ff;
+            color: #0056b3;
+            border: none;
+            padding: 5px 10px;
+            font-size: 12px;
+            border-radius: 15px;
+            cursor: pointer;
+        }
+
+        .clear-all {
+            float: right;
+            color: #007bff;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .selection-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            font-size: 14px;
+            color: #000000D9;
+            font-weight: 200;
+        }
+
+        .selection-options input[type="checkbox"] {
+            margin-right: 10px;
+        }
+
+        .price-range {
+            width: 100%;
+        }
+
+        .price-values {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #555;
+        }
+
+        .filter-group {
+            margin-top: 5px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .filter-group h3 {
+            font-size: 16px;
+            margin-bottom: 5px;
+            color: #000000D9;
+            padding-bottom: 5px;
+        }
+
+        .filter-group label {
+            margin: 0px 0px 12px;
+        }
+
+        label img {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+
+        .departure-arrival {
+            display: flex;
+            flex-direction: row;
+            gap: 5px;
+            margin-bottom: 20px;
+        }
+
+        .time-slot {
+            border: 2px solid grey;
+            border-radius: 8px;
+            height: 56px;
+            width: 56px;
+            padding: 5px;
+        }
+
+        .time-slot img {
+            height: 44px;
+            width: 54px;
+
+        }
+
+        .time-slot.active {
+            background-color: #068eff;
+            /* Blue background for active state */
+            color: white;
+            /* Change text color to white */
+        }
+
+        .bold-font b {
+            height: 12px;
+            width: 45px;
+        }
+
+        b {
+            font-weight: 700;
+        }
+
+        /*-------*/
+        .flight-card {
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            background-color: #ffffff;
+            padding: 16px;
+            margin: 16px 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            font-family: Arial, sans-serif;
+            width: 850px;
+            height: 150px;
+        }
+
+        .flight-info {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 2000px;
+        }
+
+        .logo1 img {
+            width: 40px;
+            height: 40px;
+            border-radius: 4px;
+            background-color: #f0f0f0;
+        }
+
+        .flight-details {
+            flex: 1;
+            margin-left: 20px;
+        }
+
+        .flight-name-code {
+            margin-left: -100px;
+        }
+
+        .flight-name {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .flight-code {
+            font-size: 14px;
+            color: #666;
+            margin-top: 4px;
+        }
+
+        .flight-time {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 8px;
+            font-weight: bolder;
+            color: #000;
+            font-size: 20px;
+        }
+
+        .flight-time-nonstop {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 8px;
+            font-weight: bold;
+            color: #000;
+            font-size: 18px;
+            border-bottom: 3px solid rgb(81, 226, 194);
+        }
+
+        .flight-route {
+            font-size: 12px;
+            color: #000;
+            margin-top: 4px;
+        }
+
+        .price-details {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+        .price {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .view-prices {
+            background-color: #007bff;
+            color: #ffffff;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+
+        .additional-info span {
+            font-size: 14px;
+            color: #007bff;
+            margin-top: 16px;
+        }
+
+        .additional-info h5 {
+            background-color: #ffedd1;
+            padding: 10px;
+            padding-left: 100px;
+        }
+
+        /*----------------------------------------------------------------------------*/
+        /* Modal Background */
+        #fareOptionsModal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            /* Dark semi-transparent background */
+            overflow: auto;
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        #fareOptionsModal .modal-content {
+            background-color: #ffffff;
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            font-family: 'Arial', sans-serif;
+            animation: slideDown 0.4s ease;
+            position: relative;
+            /* Added this */
+        }
+
+        /* Flight Details Container with Border */
+        #fareOptionsModal .fare-option1 {
+            border: 2px solid gold;
+            /* Blue border for styling */
+            border-radius: 15px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            position: relative;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        /* Add subtle hover effect */
+        #fareOptionsModal .fare-option1:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            border-color: #0056b3;
+            /* Darker blue on hover */
+        }
+
+        /* Flight Header */
+        #fareOptionsModal .flight-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        #fareOptionsModal .flight-logo {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            object-fit: cover;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Flight Details */
+        #fareOptionsModal .flight-header h4 {
+            font-size: 20px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        #fareOptionsModal .flight-header p {
+            font-size: 16px;
+            color: #555;
+        }
+
+        /* Fare Details */
+        #fareOptionsModal .fare-option1 p {
+            font-size: 15px;
+            color: #444;
+            margin: 8px 0;
+        }
+
+        #fareOptionsModal .fare-option1 p strong {
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        /* Attractive Button */
+        #fareOptionsModal button.book-now {
+            display: block;
+            width: 100%;
+            padding: 12px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+            text-transform: uppercase;
+            border: none;
+            border-radius: 25px;
+            background: linear-gradient(45deg, #007bff, #0056b3);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        #fareOptionsModal button.book-now:hover {
+            background: linear-gradient(45deg, #0056b3, #003d7a);
+            transform: scale(1.05);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            #fareOptionsModal .modal-content {
+                width: 95%;
+                padding: 20px;
+            }
+
+            #fareOptionsModal .fare-option1 {
+                width: 100%;
+            }
+
+            #fareOptionsModal .flight-logo {
+                width: 50px;
+                height: 50px;
+            }
+
+            #fareOptionsModal button.book-now {
+                font-size: 14px;
+                padding: 10px 15px;
+            }
+        }
+
+        /* Close Button */
+        #fareOptionsModal .close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            color: #333;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        #fareOptionsModal .close:hover {
+            color: #e74c3c;
+        }
+        
+    </style>
+</head>
+
+<body class="background">
+    <!-- Header -->
+    <div class="header-section">
+        <div class="header">
+            <div class="logo"><img src="https://promos.makemytrip.com/Growth/Images/1x/mmt_dt_top_icon.png"
+                    alt="makemytrip-logo" style="height: 40px;width: 150px;"></div>
+            <nav>
+                <a href="mmt.html">Home</a>
+                <a href="#">Flights</a>
+                <a href="#">Hotels</a>
+                <a href="#">Holidays</a>
+                <a href="#">Support</a>
+            </nav>
+        </div>
+        <div class="search-container">
+            <div class="search-bar">
+                <div class="input-group">
+                    <label>Trip Type</label>
+                    <select style="width: 150px;">
+                        <option>One Way</option>
+                        <option>Round Trip</option>
+                        <option>Multi City</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>From</label>
+                    <input type="text" value="New Delhi, India" style="width: 150px;">
+                </div>
+                <div class="input-group double-arrow">
+                    <span>&#8646;</span>
+                </div>
+                <div class="input-group">
+                    <label>To</label>
+                    <input type="text" value="Bengaluru, India" style="width: 150px;">
+                </div>
+                <div class="input-group">
+                    <label>Depart</label>
+                    <input type="text" value="Sat, Nov 16, 2024" style="width: 150px;">
+                </div>
+                <div class="input-group">
+                    <label>Return</label>
+                    <input type="text" placeholder="Select Return" disabled style="width: 150px;">
+                </div>
+                <div class="input-group">
+                    <label>Passengers & Class</label>
+                    <input type="text" value="1 Adult, Economy" style="width: 150px;">
+                </div>
+                <button class="search-button" style="width: 150px;">SEARCH</button>
+            </div>
+            <div class="fare-type">
+                <label>Fare Type:</label>
+                <div class="fare-options">
+                    <label><input type="radio" name="fare" checked> Regular</label>
+                    <label><input type="radio" name="fare"> Student</label>
+                    <label><input type="radio" name="fare"> Senior Citizen</label>
+                    <label><input type="radio" name="fare"> Armed Forces</label>
+                    <label><input type="radio" name="fare"> Doctor and Nurses</label>
+                </div>
+            </div>
+        </div>
+</body>
+
+<body>
+    <div class="parent-container">
+        <!--------------------------FILTER SECTION-------------------------------------------->
+        <div class="filter-box">
+            <div class="applied-filters">
+                <span class="section-heading">Applied Filters</span>
+                <span id="clearAll" class="clear-all" onclick="">CLEAR ALL</span>
+                <div>
+                    <button>NON STOP</button>
+                </div>
+            </div>
+            <!---Selection-->
+            <div class="selection">
+                <span class="section-heading">Popular Filters</span>
+                <div class="selection-options">
+                    <label>
+                        <input type="checkbox" checked> Non Stop
+                    </label>
+                    <span>₹ 13,828</span>
+                </div>
+                <div class="selection-options">
+                    <label>
+                        <input type="checkbox"> Refundable Fares
+                    </label>
+                    <span>₹ 10,988</span>
+                </div>
+                <div class="selection-options">
+                    <label>
+                        <input type="checkbox"> IndiGo
+                    </label>
+                    <span>₹ 11,448</span>
+                </div>
+                <div class="selection-options">
+                    <label>
+                        <input type="checkbox"> Morning Departures
+                    </label>
+                    <span>₹ 12,044</span>
+                </div>
+                <div style="color: #007bff; font-size: 12px; cursor: pointer;">+ 4 more</div>
+            </div>
+            <div class="selection">
+                <span class="section-heading">One Way Price</span>
+                <input type="range" class="price-range" min="8551" max="40500" value="8551" id="priceRange" step="100">
+                <div class="price-values">
+                    <span id="currentPrice">₹ 8,551</span>
+                    <span>₹ 40,500</span>
+                </div>
+            </div>
+
+            <div class="selection">
+                <span class="section-heading">Stops From New Delhi</span>
+                <div class="selection-options">
+                    <label>
+                        <input type="checkbox" checked> Non Stop
+                    </label>
+                    <span>₹ 13,828</span>
+                </div>
+                <div class="selection-options">
+                    <label>
+                        <input type="checkbox"> 1 Stop
+                    </label>
+                    <span>₹ 8,551</span>
+                </div>
+            </div>
+            <!-- Departure -->
+            <div class="selection">
+                <span class="section-heading">Departure From New Delhi</span>
+                <div class="departure-arrival" style="margin-top: 10px;">
+                    <div class="time-slot">
+                        <span><img
+                                src="https://imgak.mmtcdn.com/flights/assets/media/dt/listing/left-filters/morning_inactive.png?v=1"
+                                alt="Night"></span>
+                        <div class="boldfont" style="font-size: 8px;"><b>Before 6AM</b></div>
+                    </div>
+                    <div class="time-slot">
+                        <span><img
+                                src="https://imgak.mmtcdn.com/flights/assets/media/dt/listing/left-filters/noon_inactive.png?v=1"
+                                alt="Night"></span>
+                        <div class="boldfont" style="font-size: 8px;"><b>6 AM - 12 PM</b></div>
+                    </div>
+                    <div class="time-slot">
+                        <span><img
+                                src="https://imgak.mmtcdn.com/flights/assets/media/dt/listing/left-filters/evening_inactive.png?v=1"
+                                alt="Night"></span>
+                        <div class="boldfont" style="font-size: 8px;"><b>12PM - 6PM</b></div>
+                    </div>
+                    <div class="time-slot">
+                        <span><img
+                                src="https://imgak.mmtcdn.com/flights/assets/media/dt/listing/left-filters/night_inactive.png?v=1"
+                                alt="Night"></span>
+                        <div class="boldfont" style="font-size: 8px;"><b>After 6 PM</b></div>
+                    </div>
+                </div>
+
+                <!-- Arrival -->
+                <div class="selection">
+                    <span class="section-heading">Arrival at Bengaluru</span>
+                    <div class="departure-arrival" style="margin-top: 10px;">
+                        <div class="time-slot">
+                            <span><img
+                                    src="https://imgak.mmtcdn.com/flights/assets/media/dt/listing/left-filters/morning_inactive.png?v=1"
+                                    alt="Night"></span>
+                            <div class="boldfont" style="font-size: 8px;"><b>Before 6AM</b></div>
+                        </div>
+                        <div class="time-slot">
+                            <span><img
+                                    src="https://imgak.mmtcdn.com/flights/assets/media/dt/listing/left-filters/noon_inactive.png?v=1"
+                                    alt="Night"></span>
+                            <div class="boldfont" style="font-size: 8px;"><b>6 AM - 12 PM</b></div>
+                        </div>
+                        <div class="time-slot">
+                            <span><img
+                                    src="https://imgak.mmtcdn.com/flights/assets/media/dt/listing/left-filters/evening_inactive.png?v=1"
+                                    alt="Night"></span>
+                            <div class="boldfont" style="font-size: 8px;"><b>12PM - 6PM</b></div>
+                        </div>
+                        <div class="time-slot">
+                            <span><img
+                                    src="https://imgak.mmtcdn.com/flights/assets/media/dt/listing/left-filters/night_inactive.png?v=1"
+                                    alt="Night"></span>
+                            <div class="boldfont" style="font-size: 8px;"><b>After 6 PM</b></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Airlines -->
+                <div class="filter-group">
+                    <h3>Airlines</h3>
+                    <label><input type="checkbox" name="airlines" value="air-india" /><img
+                            src="https://imgak.mmtcdn.com/flights/assets/media/dt/common/icons/AI.png?v=19"
+                            alt="air-india-icon">
+                        Air India (₹19,118)</label>
+                    <label><input type="checkbox" name="airlines" value="air-india-express" /><img
+                            src="https://imgak.mmtcdn.com/flights/assets/media/dt/common/icons/IX.png?v=19"
+                            alt="air-india-express-icon"> Air India Express
+                        (₹16,498)</label>
+                    <label><input type="checkbox" name="airlines" value="akasa-air" /><img
+                            src="https://imgak.mmtcdn.com/flights/assets/media/dt/common/icons/QP.png?v=19"
+                            alt="akasa-air-icon">
+                        Akasa Air (₹21,048)</label>
+                    <label><input type="checkbox" name="airlines" value="indigo" /><img
+                            src="https://imgak.mmtcdn.com/flights/assets/media/dt/common/icons/6E.png?v=19"
+                            alt="indigo-icon">
+                        IndiGo (₹16,607)</label>
+                    <label><input type="checkbox" name="airlines" value="spicejet" /><img
+                            src="https://imgak.mmtcdn.com/flights/assets/media/dt/common/icons/SG.png?v=19"
+                            alt="spicejet-icon">
+                        SpiceJet (₹35,641)</label>
+                </div>
+            </div>
+        </div>
+        <!------------------------------------------------------------------------------------------->
+        <!----------------------------------FLIGHT CARDS------------------------------------------->
+        <div class="flights-info">
+            <h1 style="color: #ffffff;font-size: 24px;">Flights from New Delhi to Bengaluru</h1>
+            <!---card 1-->
+            <div class="flight-card">
+                <div class="flight-info">
+                    <div class="logo1">
+                        <img src="https://imgak.mmtcdn.com/flights/assets/media/dt/common/icons/6E.png?v=19"
+                            alt="Airline Logo">
+                    </div>
+                    <div class="flight-name-code">
+                        <div class="flight-name">IndiGo</div>
+                        <div class="flight-code">6E 6188</div>
+                    </div>
+                    <div class="flight-time-route">
+                        <div class="flight-time">13:00</div>
+                        <div class="flight-route">New Delhi</div>
+                    </div>
+                    <div class="flight-time-route">
+                        <div class="flight-time-nonstop">2h 45m</div>
+                        <div class="flight-route">Non Stop</div>
+                    </div>
+                    <div class="flight-time-route">
+                        <div class="flight-time">15:30</div>
+                        <div class="flight-route">Bengaluru</div>
+                    </div>
+                    <div class="price-details">
+                        <div class="price">₹22,228</div>
+                        <button class="view-prices" id="openFareOptionsBtn" onclick="openPricePopup(22228)">View Prices</button>
+                    </div>
+                </div>
+                <div class="additional-info">
+                    <span>Add to compare +</span>
+                    <h5>Get FLAT ₹ 426 OFF using code MMTSUPER | Get Flat 12-16% OFF using code MMTICICIFEST</h5>
+                </div>
+            </div>
+            <!---card 2-->
+            <div class="flight-card">
+                <div class="flight-info">
+                    <div class="logo1">
+                        <img src="https://imgak.mmtcdn.com/flights/assets/media/dt/common/icons/AI.png?v=19"
+                            alt="Airline Logo">
+                    </div>
+                    <div class="flight-name-code">
+                        <div class="flight-name">Air India</div>
+                        <div class="flight-code">AI 2809</div>
+                    </div>
+                    <div class="flight-time-route">
+                        <div class="flight-time">20:00</div>
+                        <div class="flight-route">New Delhi</div>
+                    </div>
+                    <div class="flight-time-route">
+                        <div class="flight-time-nonstop">2h 50m</div>
+                        <div class="flight-route">Non Stop</div>
+                    </div>
+                    <div class="flight-time-route">
+                        <div class="flight-time">22:50</div>
+                        <div class="flight-route">Bengaluru</div>
+                    </div>
+                    <div class="price-details">
+                        <div class="price">₹27,011</div>
+                        <button class="view-prices" id="openFareOptionsBtn" onclick="openPricePopup(27011)">View Prices</button>
+                    </div>
+                </div>
+                <div class="additional-info">
+                    <span>Add to compare +</span>
+                    <h5>Get FLAT ₹ 2,000 OFF using code TRAVELSEASON; Get Flat 12-16% OFF using code MMTICICIFEST</h5>
+                </div>
+            </div>
+
+            <!---card 3-->
+            <div class="flight-card">
+                <div class="flight-info">
+                    <div class="logo1">
+                        <img src="https://imgak.mmtcdn.com/flights/assets/media/dt/common/icons/QP.png?v=19"
+                            alt="Airline Logo">
+                    </div>
+                    <div class="flight-name-code">
+                        <div class="flight-name">Akasa Air</div>
+                        <div class="flight-code">QP 1350</div>
+                    </div>
+                    <div class="flight-time-route">
+                        <div class="flight-time">21:55</div>
+                        <div class="flight-route">New Delhi</div>
+                    </div>
+                    <div class="flight-time-route">
+                        <div class="flight-time-nonstop">3h 05m</div>
+                        <div class="flight-route">Non Stop</div>
+                    </div>
+                    <div class="flight-time-route">
+                        <div class="flight-time">01:00</div>
+                        <div class="flight-route">Bengaluru</div>
+                    </div>
+                    <div class="price-details">
+                        <div class="price">₹21,048</div>
+                        <button class="view-prices" id="openFareOptionsBtn" onclick="openPricePopup(21048)">View Prices</button>
+                    </div>
+                </div>
+                <div class="additional-info">
+                    <span>Add to compare +</span>
+                    <h5>Get FLAT ₹ 375 OFF using code MMTSUPER | Get Flat 12-16% OFF using code MMTICICIFEST</h5>
+                </div>
+            </div>
+
+            <!---card 4-->
+            <div class="flight-card">
+                <div class="flight-info">
+                    <div class="logo1">
+                        <img src="https://imgak.mmtcdn.com/flights/assets/media/dt/common/icons/IX.png?v=19"
+                            alt="Airline Logo" style="height: 35px;width: 35px;">
+                    </div>
+                    <div class="flight-name-code" style="margin-left: -95px;">
+                        <div class="flight-name">Air India Exp</div>
+                        <div class="flight-code">IX 2748</div>
+                    </div>
+                    <div class="flight-time-route">
+                        <div class="flight-time">21:40</div>
+                        <div class="flight-route">New Delhi</div>
+                    </div>
+                    <div class="flight-time-route">
+                        <div class="flight-time-nonstop">2h 50m</div>
+                        <div class="flight-route">Non Stop</div>
+                    </div>
+                    <div class="flight-time-route">
+                        <div class="flight-time">00:30</div>
+                        <div class="flight-route">Bengaluru</div>
+                    </div>
+                    <div class="price-details">
+                        <div class="price">₹18,998</div>
+                        <button class="view-prices" id="openFareOptionsBtn" onclick="openPricePopup(18998)">View Prices</button>
+                    </div>
+                </div>
+                <div class="additional-info">
+                    <span>Add to compare +</span>
+                    <h5>Get FLAT ₹ 340 OFF using code MMTSUPER | Get Flat 12-16% OFF using code MMTICICIFEST</h5>
+                </div>
+            </div>
+
+            <!---card 5-->
+            <div class="flight-card">
+                <div class="flight-info">
+                    <div class="logo1">
+                        <img src="https://imgak.mmtcdn.com/flights/assets/media/dt/common/icons/SG.png?v=19"
+                            alt="Airline Logo">
+                    </div>
+                    <div class="flight-name-code">
+                        <div class="flight-name"> SpiceJet</div>
+                        <div class="flight-code">SG 536</div>
+                    </div>
+                    <div class="flight-time-route">
+                        <div class="flight-time">06:10</div>
+                        <div class="flight-route">New Delhi</div>
+                    </div>
+                    <div class="flight-time-route">
+                        <div class="flight-time-nonstop">2h 55m</div>
+                        <div class="flight-route">Non Stop</div>
+                    </div>
+                    <div class="flight-time-route">
+                        <div class="flight-time">09:05</div>
+                        <div class="flight-route">Bengaluru</div>
+                    </div>
+                    <div class="price-details">
+                        <div class="price">₹17,645
+                        </div>
+                        <button class="view-prices" id="openFareOptionsBtn" onclick="openPricePopup(17645)">View Prices</button>
+                    </div>
+                </div>
+                <div class="additional-info">
+                    <span>Add to compare +</span>
+                    <h5>Get FLAT ₹ 705 OFF using code TRAVELSEASON | Get Flat 13% OFF using code MMTICICIFEST</h5>
+                </div>
+            </div>
+
+            <!---card 6-->
+            <div class="flight-card">
+                <div class="flight-info">
+                    <div class="logo1">
+                        <img src="https://imgak.mmtcdn.com/flights/assets/media/dt/common/icons/6E.png?v=19"
+                            alt="Airline Logo">
+                    </div>
+                    <div class="flight-name-code">
+                        <div class="flight-name">IndiGo</div>
+                        <div class="flight-code">6E 176</div>
+                    </div>
+                    <div class="flight-time-route">
+                        <div class="flight-time">14:15</div>
+                        <div class="flight-route">New Delhi</div>
+                    </div>
+                    <div class="flight-time-route">
+                        <div class="flight-time-nonstop">2h 45m</div>
+                        <div class="flight-route">Non Stop</div>
+                    </div>
+                    <div class="flight-time-route">
+                        <div class="flight-time">22:50</div>
+                        <div class="flight-route">Bengaluru</div>
+                    </div>
+                    <div class="price-details">
+                        <div class="price">₹22,228</div>
+                        <button class="view-prices" id="openFareOptionsBtn" onclick="openPricePopup(22228)">View Prices</button>
+                    </div>
+                </div>
+                <div class="additional-info">
+                    <span>Add to compare +</span>
+                    <h5>Get FLAT ₹ 376 OFF using code MMTSUPER | Get Flat 12-16% OFF using code MMTICICIFEST</h5>
+                </div>
+            </div>
+
+            <!---card 7-->
+            <div class="flight-card">
+                <div class="flight-info">
+                    <div class="logo1">
+                        <img src="https://imgak.mmtcdn.com/flights/assets/media/dt/common/icons/AI.png?v=19"
+                            alt="Airline Logo">
+                    </div>
+                    <div class="flight-name-code">
+                        <div class="flight-name">Air India</div>
+                        <div class="flight-code">AI 506</div>
+                    </div>
+                    <div class="flight-time-route">
+                        <div class="flight-time">09:40</div>
+                        <div class="flight-route">New Delhi</div>
+                    </div>
+                    <div class="flight-time-route">
+                        <div class="flight-time-nonstop">2h 50m</div>
+                        <div class="flight-route">Non Stop</div>
+                    </div>
+                    <div class="flight-time-route">
+                        <div class="flight-time">12:30</div>
+                        <div class="flight-route">Bengaluru</div>
+                    </div>
+                    <div class="price-details">
+                        <div class="price">₹27,789</div>
+                        <button class="view-prices" id="openFareOptionsBtn" onclick="openPricePopup(27789)">View Prices</button>
+                    </div>
+                </div>
+                <div class="additional-info">
+                    <span>Add to compare +</span>
+                    <h5>Get FLAT ₹ 397 OFF using code MMTSUPER | Get Flat 12-16% OFF using code MMTICICIFEST</h5>
+                </div>
+            </div>
+
+            <!---card 8-->
+            <div class="flight-card">
+                <div class="flight-info">
+                    <div class="logo1">
+                        <img src="https://imgak.mmtcdn.com/flights/assets/media/dt/common/icons/AI.png?v=19"
+                            alt="Airline Logo">
+                    </div>
+                    <div class="flight-name-code">
+                        <div class="flight-name">Air India</div>
+                        <div class="flight-code">AI 506</div>
+                    </div>
+                    <div class="flight-time-route">
+                        <div class="flight-time">08:00</div>
+                        <div class="flight-route">New Delhi</div>
+                    </div>
+                    <div class="flight-time-route">
+                        <div class="flight-time-nonstop">2h 50m</div>
+                        <div class="flight-route">Non Stop</div>
+                    </div>
+                    <div class="flight-time-route">
+                        <div class="flight-time">10:50</div>
+                        <div class="flight-route">Bengaluru</div>
+                    </div>
+                    <div class="price-details">
+                        <div class="price">₹28,314</div>
+                        <button class="view-prices" id="openFareOptionsBtn" onclick="openPricePopup(28314)">View Prices</button>
+                    </div>
+                </div>
+                <div class="additional-info">
+                    <span>Add to compare +</span>
+                    <h5>Get FLAT ₹ 426 OFF using code MMTSUPER | Get Flat 12-16% OFF using code MMTICICIFEST</h5>
+                </div>
+            </div>
+
+            <!---card 9-->
+            <div class="flight-card">
+                <div class="flight-info">
+                    <div class="logo1">
+                        <img src="https://imgak.mmtcdn.com/flights/assets/media/dt/common/icons/6E.png?v=19"
+                            alt="Airline Logo">
+                    </div>
+                    <div class="flight-name-code">
+                        <div class="flight-name">IndiGo</div>
+                        <div class="flight-code">6E 6622</div>
+                    </div>
+                    <div class="flight-time-route">
+                        <div class="flight-time">23:00</div>
+                        <div class="flight-route">New Delhi</div>
+                    </div>
+                    <div class="flight-time-route">
+                        <div class="flight-time-nonstop">2h 45m</div>
+                        <div class="flight-route">Non Stop</div>
+                    </div>
+                    <div class="flight-time-route">
+                        <div class="flight-time">01:45</div>
+                        <div class="flight-route">Bengaluru</div>
+                    </div>
+                    <div class="price-details">
+                        <div class="price">₹19,708</div>
+                        <button class="view-prices" id="openFareOptionsBtn" onclick="openPricePopup(19708)">View Prices</button>
+                    </div>
+                </div>
+                <div class="additional-info">
+                    <span>Add to compare +</span>
+                    <h5>Get FLAT ₹ 2,000 OFF using code TRAVELSEASON; Get Flat 12-16% OFF using code MMTICICIFEST</h5>
+                </div>
+            </div>
+            <!------------------------------------------------------------------------>
+
+            <!----------------------------- Modal Structure for booking------------------->
+                <div id="fareOptionsModal" class="modal1">
+                    <div class="modal-content">
+                        <span class="close">&times;</span> <!-- Close button -->
+                        <h3 style=" font-size: 30px;font-weight: bold;">Fare Options Available for Your
+                            Trip</h3>
+                        <div class="fare-options1"></div> <!-- Content container for flight details -->
+                    </div>
+                </div>
+            <!--------------------------------------------------------------------------->    
+
+        </div>
+    </div>
+
+
+    </div>
+    </div>
+    </div>
+    </div>
+    <!-- Popup Structure -->
+<div id="price-popup" style="display: none;">
+    <div class="popup-content">
+        <h2>Price Details</h2>
+        <p><strong>Price:</strong> ₹<span id="popup-price"></span></p>
+        <button id="book-now-btn" onclick="bookNow()">Book Now</button>
+        <button onclick="closePopup()">Close</button>
+    </div>
+</div>
+
+
+    <script>
+        //---------------------CLEAR ALL FUNCTIONALITY-----------------------
+        const priceRange = document.getElementById('priceRange');
+        const currentPrice = document.getElementById('currentPrice');
+        priceRange.addEventListener('input', () => {
+            currentPrice.textContent = `₹ ${priceRange.value}`;
+        });
+        document.getElementById('clearAll').addEventListener('click', () => {
+            document.querySelectorAll('input[type="checkbox"]').forEach((checkbox) => {
+                checkbox.checked = false;
+            });
+        });
+        document.querySelectorAll('.time-slot').forEach(item => {
+            // Single click: toggle active class
+            item.addEventListener('click', () => {
+                item.classList.toggle('active'); // Toggle the 'active' class
+            });
+        });
+
+        //-----------------------------BOOKING MODAL-----------------------------------------------------
+        // Get all "View Prices" buttons
+        const viewPricesButtons = document.querySelectorAll(".view-prices");
+
+        // Reference to the modal and its content container
+        const modal = document.getElementById("fareOptionsModal");
+        const modalContent = document.querySelector("#fareOptionsModal .fare-options1");
+
+        // Close modal logic
+        const closeModal = document.querySelector("#fareOptionsModal .close");
+        closeModal.addEventListener("click", () => {
+            modal.style.display = "none";
+        });
+
+        // Function to handle "View Prices" click
+        viewPricesButtons.forEach((button) => {
+            button.addEventListener("click", (event) => {
+                // Get the parent flight card
+                const flightCard = event.target.closest(".flight-card");
+
+                // Extract details from the flight card
+                const flightName = flightCard.querySelector(".flight-name").textContent;
+                const flightCode = flightCard.querySelector(".flight-code").textContent;
+                const departureTime = flightCard.querySelectorAll(".flight-time")[0].textContent;
+                const arrivalTime = flightCard.querySelectorAll(".flight-time")[1].textContent;
+                const price = flightCard.querySelector(".price").textContent;
+                const flightLogo = flightCard.querySelector(".logo1 img").src;
+
+                // Clear the modal content
+                modalContent.innerHTML = "";
+
+                // Check if this is the "Best Deal" (optional logic)
+                const isBestDeal = flightCard.classList.contains("best-deal");
+
+                // Populate the modal with the selected flight details
+                modalContent.innerHTML = `
+            <div class="fare-option1 ${isBestDeal ? "best-deal" : ""}">
+                <div class="flight-header">
+                    <img src="${flightLogo}" alt="Airline Logo" class="flight-logo">
+                    <div>
+                        <h4>${flightName} (${flightCode})</h4>
+                        <p>${price} per adult</p>
+                    </div>
+                </div>
+                <p><strong>Departure:</strong> ${departureTime}</p>
+                <p><strong>Arrival:</strong> ${arrivalTime}</p>
+                <p><strong>Baggage:</strong> 7 Kgs Cabin, 15 Kgs Check-in</p>
+                <p><strong>Flexibility:</strong> Cancellation starts at ₹3,999</p>
+                <p><strong>Seats, Meals:</strong> Chargeable</p>
+                <a href="booking_form.html">
+                  <button class="book-now" onclick="bookNow(${price.replace('₹', '').replace(',', '')})">Book Now</button>
+                </a>
+
+            </div>
+        `;
+
+                // Show the modal
+                modal.style.display = "block";
+            });
+        });
+        //------------------------------------------------------------------------
+        let selectedPrice = 0;
+
+    function openPricePopup(price) {
+        // Save the selected price in a variable
+        selectedPrice = price;
+
+        // Show the popup and display the price
+        document.getElementById('popup-price').textContent = price;
+        document.getElementById('price-popup').style.display = 'block';
+    }
+
+    function closePopup() {
+        // Hide the popup
+        document.getElementById('price-popup').style.display = 'none';
+    }
+
+    function bookNow(price) {
+    if (price) {
+        // Save the selected price to sessionStorage
+        sessionStorage.setItem('selectedPrice', price);
+
+        // Redirect to the booking page
+        window.location.href = 'booking_form.html';
+    } else {
+        alert('No price selected.');
+    }
+}
+
+    sessionStorage.getItem('selectedPrice');
+
+
+    </script>
+</body>
+
+
+
+</html>
